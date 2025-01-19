@@ -1,0 +1,222 @@
+/* General Reset */
+body, h1, h2, p, form, input, button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Set body to be a flex container */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f4;
+    color: #2c3e50;
+    margin: 0;
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack elements vertically */
+    min-height: 100vh; /* Ensure body takes at least the full height of the viewport */
+}
+
+/* Main Section */
+main {
+    flex-grow: 1; /* Makes the main content area take the remaining space */
+    padding: 2em;
+}
+
+/* Footer Styling */
+footer {
+    background-color: #b8cab8;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+}
+
+/* Header Styling */
+header {
+    background-color: #519840;
+    padding: 10px 20px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+/* Header container to align logo and menu icon */
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+/* Logo Styling */
+.logo {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+/* Hamburger Icon */
+.menu-icon {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    width: 30px;
+    height: 25px;
+    justify-content: space-between;
+    transition: all 0.3s ease-in-out;
+}
+
+.menu-icon .bar {
+    height: 5px;
+    background-color: #fff;
+    border-radius: 3px;
+}
+
+/* Navigation Links */
+.nav-links {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 0;
+    background-color: #459c2f;
+    padding: 10px 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    box-sizing: border-box;
+}
+
+.nav-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-links li {
+    margin: 10px 0;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: #e5ebe5;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+.nav-links li a:hover {
+    color: #57b300;
+}
+
+/* Ensure the menu stays visible when hovering over it */
+.header-container:hover .nav-links,
+.nav-links:hover {
+    display: block;
+}
+
+/* Show hamburger icon on desktop */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* Hide the menu on desktop */
+    }
+
+    /* Show menu when hovering over the hamburger icon or the menu itself */
+    .header-container:hover .nav-links {
+        display: block;
+    }
+}
+
+/* Form Styles */
+form {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 1em 2em;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form input, form textarea, form button {
+    width: 100%;
+    padding: 1em;
+    margin-bottom: 1em;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form button {
+    background-color: #27ae60;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #2ecc71;
+}
+
+/* Input container */
+.input-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em;
+    align-items: center; /* Centers content horizontally */
+}
+
+.input-container label {
+    font-size: 1.1em;
+    margin-bottom: 0.5em; /* Adds space between label and input field */
+    color: #333;
+}
+
+.input-container input {
+    padding: 0.5em;
+    font-size: 1em;
+    width: 60%; /* A little smaller than full width */
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+}
+
+.search-container button {
+    padding: 0.5em 2em;
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 8px; /* Makes the button have rounded corners */
+    cursor: pointer;
+    font-size: 1.1em;
+    margin-top: 1em;
+}
+
+.search-container button:hover {
+    background-color: #2ecc71; /* Hover effect */
+}
+
+#recognized-products {
+    text-align: center;  /* Centers the content inside the section */
+    margin-top: 30px;
+}
+
+#recognized-products button {
+    padding: 10px 20px;  
+    background-color: #0fb300;;  
+    color: white;  
+    border: none;
+    border-radius: 5px;  
+    cursor: pointer;
+    font-size: 16px;  
+    margin: 10px 0;  
+    transition: background-color 0.3s ease;
+}
+
+#recognized-products button:hover {
+    background-color: #0c6304;  
+}

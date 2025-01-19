@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeautyCare API</title>
+    <link rel="stylesheet" href="frontend/style.css?v=1.3">
+
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">BeautyCare API</div>
+            <div class="menu-icon" id="menu-icon">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <nav class="nav-links" id="nav-links">
+                <ul>
+                    <li><a href="#Home">Home</a></li>
+                    <li><a href="#recognized-products">Recognized Products</a></li>
+                    <li><a href="#search-product-name">Search by Name</a></li>
+                    <li><a href="#search-product-brand">Search by Brand</a></li>
+                    <li><a href="#report-product">Report a Product</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+
+    <main>
+        <!-- Home Page -->
+        <section id="Home">
+            <div class="welcome-page">
+                <h2>Welcome to the BeautyCare API</h2>
+                <p>Your trusted platform for reviewing, searching, and reporting unsafe beauty care products spotted on social media .</p>
+            </div>
+        </section>
+    
+<!-- Recognized Products Page -->
+<section id="recognized-products">
+    <h2>Recognized Products</h2>
+    <br><br>
+    <button onclick="searchImportedProducts()">Imported Products</button>
+    <div id="imported-products"></div>
+    <br><br>
+    <button onclick="searchLocallyMadeProducts()">Locally Made Products</button>
+    <div id="locally-made-products"></div>
+</section>
+
+
+
+  <!-- Search by Name -->
+<section id="search-product-name">
+    <h2>Search for a Product by Name</h2>
+    <div class="input-container">
+        <label for="search-name">Product Name:</label>
+        <input type="text" id="search-name" placeholder="Enter product name">
+    </div>
+    <div class="search-container">
+        <button onclick="searchProductByName()">Search</button>
+    </div>
+    <div id="search-results-name"></div>
+</section>
+
+<!-- Search by Brand -->
+<section id="search-product-brand">
+    <h2>Search for a Product by Brand</h2>
+    <div class="input-container">
+        <label for="search-brand">Brand Name:</label>
+        <input type="text" id="search-brand" placeholder="Enter brand name">
+    </div>
+    <div class="search-container">
+        <button onclick="searchProductByBrand()">Search</button>
+    </div>
+    <div id="search-results-brand"></div>
+</section>
+
+
+        <!-- Report a Product -->
+        <section id="report-product">
+            <h2>Report a Product</h2>
+            <form id="report-form">
+                <label for="product-name">Product Name:</label>
+                <input type="text" id="product-name" required>
+
+                <label for="brand-name">Brand Name:</label>
+                <input type="text" id="brand-name" required>
+
+                <label for="platform">Social Media Platform:</label>
+                <input list="platforms" id="platform" required>
+                <datalist id="platforms">
+                    <option value="Facebook">
+                    <option value="Instagram">
+                    <option value="Twitter">
+                    <option value="TikTok">
+                    <option value="YouTube">
+                </datalist>
+
+                <label for="post-url">Post URL:</label>
+                <input type="url" id="post-url" required>
+
+                <label for="author-name">Author Name:</label>
+                <input type="text" id="author-name" required>
+
+                <label for="description">Description:</label>
+                <textarea id="description" required></textarea>
+
+                <button type="submit" , onclick="reportProduct()">Submit</button>
+            </form>
+            <div id="report-message"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>BeautyCare API &copy; 2025</p>
+    </footer>
+
+    <script src="/frontend/script.js" defer></script>
+</body>
+</html>
