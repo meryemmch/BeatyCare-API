@@ -15,9 +15,7 @@ class VerifyProduct:
     @staticmethod
     @verify_report_router.delete("/verify-product/auto-delete-recognized-reports", response_model=dict)
     async def delete_recognized_reports(db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
-        """
-        Automatically delete all reports for products found in the recognized product table.
-        """
+      
         try:
             recognized_reports = db.query(models.reports.Reports).join(
                 models.recognized_products.RecognizedProducts,
@@ -40,9 +38,7 @@ class VerifyProduct:
     @staticmethod
     @verify_report_router.put("/verify-product/auto-verify-reports", response_model=dict)
     async def auto_verify_reports(db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
-        """
-        Automatically verify all reports for products not found in the recognized product table.
-        """
+      
         try:
             unverified_reports = db.query(models.reports.Reports).filter(
                 models.reports.Reports.is_verified == False
@@ -71,9 +67,7 @@ class VerifyProduct:
     @staticmethod
     @verify_report_router.get("/verify-product/list-verified-reports", response_model=dict)
     async def list_verified_reports(db: Session = Depends(get_db),current_user: str = Depends(get_current_user)):
-        """
-        List all reports that have `is_verified=True`.
-        """
+       
         try:
             verified_reports = db.query(models.reports.Reports).filter(
                 models.reports.Reports.is_verified == True
@@ -96,9 +90,7 @@ class VerifyProduct:
     @staticmethod
     @verify_report_router.post("/verify-product/add-flagged-products", response_model=dict)
     async def add_verified_to_flagged(user_confirmation: str, db: Session = Depends(get_db),current_user: str = Depends(get_current_user)):
-        """
-        Add verified reports to the flagged products table, only after user confirmation.
-        """
+       
         if user_confirmation.lower() != "yes":
             return {"message": "Operation cancelled by the user."}
 

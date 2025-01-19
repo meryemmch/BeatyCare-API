@@ -30,3 +30,23 @@ def add_recognized_product(product: RecognizedProductSchema, db: Session = Depen
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=500, detail=f"Error adding recognized product: {str(e)}")
+    
+@recognized_products_router.get("/recognized_products/imported", response_model=list[RecognizedProductSchema])
+def get_imported_recognized_products(db: Session = Depends(get_db)):
+    try:
+        products = db.query(models.recognized_products.RecognizedProducts).filter(
+            models.recognized_products.RecognizedProducts.origin == 'imported'
+        ).all()
+        return products
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error fetching imported recognized products: {str(e)}")
+
+@recognized_products_router.get("/recognized_products/local", response_model=list[RecognizedProductSchema])
+def get_locally_made_recognized_products(db: Session = Depends(get_db)):
+    try:
+        products = db.query(models.recognized_products.RecognizedProducts).filter(
+            models.recognized_products.RecognizedProducts.origin == 'locally made'
+        ).all()
+        return products
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error fetching locally made recognized products: {str(e)}")

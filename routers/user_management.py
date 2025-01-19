@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from database.db import get_db
 from schemas.user import UserSchema
-import models
+import models.users
 from models.users import User, RoleEnum
 from auth import create_access_token, get_current_user, get_password_hash, verify_password
 
@@ -54,3 +54,23 @@ def add_user(
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=500, detail=f"Error adding user: {str(e)}")
+    
+@user_management_router.delete("/delete_user/{user_id}", response_model=dict)
+def delete_user(user_id: int, db: Session = Depends(get_db), current_user: models.users.User = Depends(get_current_user)):
+    # Ensure the current user is an admin
+    if current_user.role != models.users.RoleEnum.admin:
+        raise HTTPException(status_code=403, detail="Only admins can delete users.")
+    
+    # Find the user to delete
+    user_to_delete = db.query(models.users.User).filter(models.users.User.id == user_id).first()
+    
+    if not user_to_delete:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    try:
+        db.delete(user_to_delete)
+        db.commit()
+        return {"message": f"User with ID {user_id} deleted successfully."}
+    except Exception as e:
+        db.rollback()  # Ensure any failed operation rolls back
+        raise HTTPException(status_code=500, detail=f"Error deleting user: {str(e)}")
