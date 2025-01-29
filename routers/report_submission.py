@@ -7,7 +7,6 @@ from schemas.report import ReportsSchema
 
 report_submission_router = APIRouter()
 
-
 @report_submission_router.post("/submit_report/", response_model=dict)
 async def submit_report(report: ReportsSchema, db: Session = Depends(get_db)):
     try:
@@ -16,7 +15,6 @@ async def submit_report(report: ReportsSchema, db: Session = Depends(get_db)):
             brand_name=report.brand_name,
             social_media_platform=report.social_media_platform,
             post_url=report.post_url,
-            author_name=report.author_name,
             description=report.description
         )
         db.add(new_report)

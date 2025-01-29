@@ -2,7 +2,11 @@ from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
-
+import models.flaged_products
+import models.recognized_products
+import models.users
+import models.reports
+from database.db import engine
 from routers.search import search_router
 from routers.user_management import user_management_router
 from routers.report_submission import report_submission_router
@@ -19,6 +23,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+models.recognized_products.Base.metadata.create_all(bind=engine)
+models.flaged_products.Base.metadata.create_all(bind=engine)
+models.reports.Base.metadata.create_all(bind=engine)
+models.users.Base.metadata.create_all(bind=engine)
+
 app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
 
 @app.get("/", response_class=HTMLResponse)
@@ -26,7 +35,7 @@ def serve_frontend():
     with open("frontend/index.html") as f:
         return HTMLResponse(content=f.read(), status_code=200)
 
-@app.get("/favicon.ico", response_class=Response)
+@app.get("/favicon.ico")
 async def favicon():
     return Response(status_code=204)
     

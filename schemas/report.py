@@ -6,5 +6,5 @@ class ReportsSchema(BaseModel):
     brand_name: str
     social_media_platform: str
     post_url: str
-    author_name: str
     description: str
+

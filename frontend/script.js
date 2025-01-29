@@ -52,7 +52,6 @@ async function searchLocallyMadeProducts() {
     }
 }
 
-
 async function searchProductByName() {
     const name = document.getElementById("search-name").value;
     const container = document.getElementById("search-results-name");
@@ -87,7 +86,7 @@ async function searchProductByBrand() {
         const response = await fetch(`${API_BASE_URL}/search_product_by_brand?brand_name=${brand}`);
         const result = await response.json();
 
-        if (result.flagged_products.length === 0) {
+        if (result.flaged_products.length === 0) {
             container.innerHTML = "<p>No products found for this brand.</p>";
         } else {
             result.flagged_products.forEach(product => {
@@ -103,6 +102,7 @@ async function searchProductByBrand() {
         console.error("Error searching product by brand:", error);
     }
 }
+
 async function reportProduct() {
     document.getElementById("report-form").addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -112,7 +112,6 @@ async function reportProduct() {
             brand_name: document.getElementById("brand-name").value,
             social_media_platform: document.getElementById("platform").value,
             post_url: document.getElementById("post-url").value,
-            author_name: document.getElementById("author-name").value,
             description: document.getElementById("description").value
         };
 

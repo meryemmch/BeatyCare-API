@@ -8,46 +8,42 @@ search_router = APIRouter()
 
 @search_router.get("/search_product_by_name", response_model=dict)
 def search_product_by_name(product_name: str, db: Session = Depends(get_db)):
-    try:
-        if not product_name:
-            raise HTTPException(status_code=400, detail="Product name must be provided.")
-        
-        response = {}
-        recognized_product = db.query(models.recognized_products.RecognizedProducts).filter(
-            models.recognized_products.RecognizedProducts.product_name == product_name).first()
-        flagged_product = db.query(models.flaged_products.FlagedProducts).filter(
-            models.flaged_products.FlagedProducts.flaged_product_name == product_name).first()
+    if not product_name:
+        raise HTTPException(status_code=400, detail="Product name must be provided.")
+    
+    recognized_product = db.query(models.recognized_products.RecognizedProducts).filter(
+        models.recognized_products.RecognizedProducts.product_name == product_name).first()
+    
+    flagged_product = db.query(models.flaged_products.FlagedProducts).filter(
+        models.flaged_products.FlagedProducts.product_name == product_name).first()
 
-        response["recognized"] = bool(recognized_product)
-        response["flagged"] = bool(flagged_product)
+    return {
+        "recognized": bool(recognized_product),
+        "flagged": bool(flagged_product)
+    }
 
-        return response
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error searching for product by name: {str(e)}")
 
 
 @search_router.get("/search_product_by_brand", response_model=dict)
 def search_product_by_brand(brand_name: str, db: Session = Depends(get_db)):
-    try:
-        if not brand_name:
-            raise HTTPException(status_code=400, detail="Brand name must be provided.")
-        
-        response = {}
-        flagged_products = db.query(models.flaged_products.FlagedProducts).filter(
-            models.flaged_products.FlagedProducts.brand_name == brand_name).all()
+    if not brand_name:
+        raise HTTPException(status_code=400, detail="Brand name must be provided.")
+    
+    flagged_products = db.query(models.flaged_products.FlagedProducts).join(
+        models.reports.Reports, models.flaged_products.FlagedProducts.report_id == models.reports.Reports.report_id
+    ).filter(models.reports.Reports.brand_name == brand_name).all()
+    
+    flagged_products_info = []
+    for product in flagged_products:
+        report_count = db.query(models.reports.Reports).filter(
+            models.reports.Reports.product_name == product.product_name).count()
+        flagged_products_info.append({
+            "flaged_product_name": product.product_name,
+            "number_of_reports": report_count
+        })
 
-        if flagged_products:
-            response["flagged_products"] = []
-            for product in flagged_products:
-                report_count = db.query(models.reports.Reports).filter(
-                    models.reports.Reports.product_name == product.flaged_product_name).count()
-                response["flagged_products"].append({
-                    "flaged_product_name": product.flaged_product_name,
-                    "number_of_reports": report_count
-                })
-        else:
-            response["flagged_products"] = []
+    return {
+        "flagged_products": flagged_products_info
+    }
 
-        return response
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error searching for products by brand: {str(e)}")
+

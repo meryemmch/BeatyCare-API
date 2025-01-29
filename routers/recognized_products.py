@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
+from auth import get_current_user
 from database.db import get_db
 import models.recognized_products
 from schemas.recognized_products import RecognizedProductSchema 
@@ -15,7 +16,7 @@ def get_recognized_products(db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail=f"Error fetching recognized products: {str(e)}")
 
 @recognized_products_router.post("/recognized_products", response_model=RecognizedProductSchema)
-def add_recognized_product(product: RecognizedProductSchema, db: Session = Depends(get_db)):
+def add_recognized_product(product: RecognizedProductSchema, db: Session = Depends(get_db),current_user: str = Depends(get_current_user)):
     try:
         new_product = models.recognized_products.RecognizedProducts(
             product_name=product.product_name,

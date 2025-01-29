@@ -6,9 +6,9 @@ class FlagedProducts(Base):
     __tablename__ = 'flaged_products'
 
     flaged_product_id = Column(Integer, primary_key=True)
-    flaged_product_name = Column(String)
-    brand_name = Column(String)
-    number_of_reports = Column(Integer, default=0)
-    report_id = Column(Integer, ForeignKey('reports.report_id'))  
+    report_id = Column(Integer, ForeignKey('reports.report_id'), nullable=False)  # Reference to Reports
+    product_name = Column(String, nullable=False)
+    number_of_reports=Column(Integer, nullable=False)
 
-    report = relationship("Reports", back_populates="flaged_products", foreign_keys=[report_id])
+    # Relationship to the Reports table
+    report = relationship("Reports", back_populates="flaged_products")
