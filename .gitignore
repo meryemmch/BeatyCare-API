@@ -1,0 +1,7 @@
+*pyc
+.vscode
+*_init.py
+*_init_.py
+.dockerignore 
+*.dbrequirements.txt
+
